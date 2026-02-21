@@ -13,11 +13,10 @@ except FileNotFoundError:
 st.set_page_config(
     page_title="Concrete AI Pro | BCE Bhagalpur",
     page_icon="🏗️",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="wide"
 )
 
-# Custom CSS for Adaptive Light/Dark Theme Look and hiding GitHub/Menu
+# Custom CSS for Adaptive Light/Dark Theme Look
 st.markdown("""
     <style>
     /* Theme-aware variables */
@@ -36,33 +35,6 @@ st.markdown("""
             --accent-gradient: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
         }
     }
-
-    /* ----------------------------------------------------------- */
-    /* REFINED RULES TO HIDE TOP BAR, GITHUB ICON, AND MENU        */
-    /* Ensuring sidebar is not affected                            */
-    /* ----------------------------------------------------------- */
-    [data-testid="stHeader"] {
-        background: rgba(0,0,0,0);
-        color: rgba(0,0,0,0);
-    }
-    
-    [data-testid="stHeader"] > div:first-child {
-        display: none;
-    }
-    
-    footer {
-        visibility: hidden;
-    }
-
-    /* Hide the specific Streamlit elements in the top right */
-    .stAppDeployButton {
-        display: none !important;
-    }
-    
-    [data-testid="stToolbar"] {
-        display: none !important;
-    }
-    /* ----------------------------------------------------------- */
 
     /* Custom Header */
     .main-header {
@@ -114,29 +86,24 @@ with st.sidebar:
     st.image("https://img.icons8.com/external-beshi-flat-kerismaker/48/external-Concrete-Mix-construction-beshi-flat-kerismaker.png", width=100)
     st.title("Project Details")
     st.markdown("---")
-    # Using Markdown with Double-Space/Trailing Line Breaks for clean verticality
-    st.markdown(f"""
-    **🎓 Designed By:** Vikash Kumar  
-
+    st.markdown("""
+    **🎓 Student:** Vikash Kumar  
     **🆔 Roll No:** D23177  
-
     **📝 Reg No:** 23101108906  
-
     **🏛️ Institution:** BCE Bhagalpur  
-
     **🔬 Algorithm:** Random Forest  
-
-    **🎯 Accuracy:** 90.74%
+    **🎯 Accuracy:** 90.74%  
     """)
     st.success("Model Status: Online")
     st.write("---")
     st.caption("Final Year Major Project 2026")
 
-# 4. Top Header Section
+# 4. Top Hero Section
 st.markdown("""
     <div class="main-header">
         <h1>🏗️ Smart Concrete Mix Strength Predictor</h1>
         <p>Advanced Machine Learning for Civil Engineering Design Optimization</p>
+        <p>Designed by Vikash Kumar</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -158,7 +125,7 @@ with col2:
     fine = st.number_input("Fine Aggregate (kg/m³)", value=700.0, step=50.0)
     age = st.slider("Curing Age (Days)", 1, 365, 28)
 
-# PREPARE INPUT DICTIONARY
+# PREPARE INPUT DICTIONARY (Moved outside button to avoid NameError)
 input_dict = {
     'Cement': cement, 'Slag': slag, 'FlyAsh': fly_ash, 'Water': water,
     'SP': sp, 'CoarseAgg': coarse, 'FineAgg': fine, 'Age': age
@@ -195,7 +162,7 @@ if st.button("🚀 EXECUTE PREDICTION ANALYSIS", use_container_width=True):
 ----------------------------------
 Project: Concrete AI Pro
 Institution: BCE Bhagalpur
-Designed By: Vikash Kumar
+Student: Vikash Kumar
 Roll No: D23177
 Reg No: 23101108906
 
@@ -220,9 +187,11 @@ RESULT:
         mime="text/plain"
     )
 
-# 8. Visual Analytics
+# 8. Visual Analytics (Now works without NameError)
 if st.checkbox("Show Strength-Age Gain Estimation"):
-    age_range = np.arange(1, 91)
+    age_range = np.arange(1, 91) # Days 1 to 90
+    
+    # Create rows of data for each day in age_range
     plot_data_rows = []
     for day in age_range:
         current_row = input_dict.copy()
@@ -235,3 +204,4 @@ if st.checkbox("Show Strength-Age Gain Estimation"):
     chart_data = pd.DataFrame({'Age (Days)': age_range, 'Strength (MPa)': strength_curve})
     st.line_chart(chart_data.set_index('Age (Days)'))
     st.caption("Estimated strength gain profile for this specific mix design.")
+    
