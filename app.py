@@ -70,11 +70,12 @@ st.markdown("""
 
 # 3. Sidebar - Profile & Project Info
 with st.sidebar:
-    st.image("https://img.icons8.com/fluency/96/concrete-mixer.png", width=100)
+    # Updated to a more reliable icon URL from Icons8
+    st.image("https://img.icons8.com/external-beshi-flat-kerismaker/48/external-Concrete-Mix-construction-beshi-flat-kerismaker.png", width=100)
     st.title("Project Details")
     st.markdown("---")
     st.markdown("""
-    **🎓 Student:** Vikash  
+    **🎓 Student:** Vikash Kumar  
     **🏛️ Institution:** BCE Bhagalpur  
     **🔬 Algorithm:** Random Forest  
     **🎯 Accuracy:** 90.74%  
@@ -145,6 +146,7 @@ if st.button("🚀 EXECUTE PREDICTION ANALYSIS", use_container_width=True):
 ----------------------------------
 Project: Concrete AI Pro
 Institution: BCE Bhagalpur
+Student: Vikash Kumar
 
 MIX DESIGN:
 - Cement: {cement} kg/m3
