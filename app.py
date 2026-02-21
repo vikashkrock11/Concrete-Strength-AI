@@ -13,10 +13,11 @@ except FileNotFoundError:
 st.set_page_config(
     page_title="Concrete AI Pro | BCE Bhagalpur",
     page_icon="🏗️",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Adaptive Light/Dark Theme Look
+# Custom CSS for Adaptive Light/Dark Theme Look and hiding specific Toolbar buttons
 st.markdown("""
     <style>
     /* Theme-aware variables */
@@ -35,6 +36,34 @@ st.markdown("""
             --accent-gradient: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
         }
     }
+
+    /* ----------------------------------------------------------- */
+    /* HIDE TOP TOOLBAR BUTTONS (Share, Star, GitHub, etc.)       */
+    /* ----------------------------------------------------------- */
+    header[data-testid="stHeader"] {
+        background: rgba(0,0,0,0);
+        color: rgba(0,0,0,0);
+    }
+    
+    /* Target the toolbar container specifically */
+    [data-testid="stToolbar"] {
+        display: none !important;
+    }
+    
+    /* Hide the deploy button if it exists */
+    .stAppDeployButton {
+        display: none !important;
+    }
+
+    /* Hide the Main Menu button */
+    #MainMenu {
+        display: none !important;
+    }
+    
+    footer {
+        visibility: hidden;
+    }
+    /* ----------------------------------------------------------- */
 
     /* Custom Header */
     .main-header {
@@ -125,7 +154,7 @@ with col2:
     fine = st.number_input("Fine Aggregate (kg/m³)", value=700.0, step=50.0)
     age = st.slider("Curing Age (Days)", 1, 365, 28)
 
-# PREPARE INPUT DICTIONARY (Moved outside button to avoid NameError)
+# PREPARE INPUT DICTIONARY
 input_dict = {
     'Cement': cement, 'Slag': slag, 'FlyAsh': fly_ash, 'Water': water,
     'SP': sp, 'CoarseAgg': coarse, 'FineAgg': fine, 'Age': age
@@ -162,7 +191,7 @@ if st.button("🚀 EXECUTE PREDICTION ANALYSIS", use_container_width=True):
 ----------------------------------
 Project: Concrete AI Pro
 Institution: BCE Bhagalpur
-Student: Vikash Kumar
+Designed By: Vikash Kumar
 Roll No: D23177
 Reg No: 23101108906
 
@@ -187,7 +216,7 @@ RESULT:
         mime="text/plain"
     )
 
-# 8. Visual Analytics (Now works without NameError)
+# 8. Visual Analytics
 if st.checkbox("Show Strength-Age Gain Estimation"):
     age_range = np.arange(1, 91) # Days 1 to 90
     
@@ -204,4 +233,3 @@ if st.checkbox("Show Strength-Age Gain Estimation"):
     chart_data = pd.DataFrame({'Age (Days)': age_range, 'Strength (MPa)': strength_curve})
     st.line_chart(chart_data.set_index('Age (Days)'))
     st.caption("Estimated strength gain profile for this specific mix design.")
-    
