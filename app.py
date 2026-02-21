@@ -13,7 +13,8 @@ except FileNotFoundError:
 st.set_page_config(
     page_title="Concrete AI Pro | BCE Bhagalpur",
     page_icon="🏗️",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 # Custom CSS for Adaptive Light/Dark Theme Look and hiding GitHub/Menu
@@ -37,28 +38,29 @@ st.markdown("""
     }
 
     /* ----------------------------------------------------------- */
-    /* STRONGER RULES TO HIDE TOP BAR, GITHUB ICON, AND MENU      */
+    /* REFINED RULES TO HIDE TOP BAR, GITHUB ICON, AND MENU        */
+    /* Ensuring sidebar is not affected                            */
     /* ----------------------------------------------------------- */
-    header[data-testid="stHeader"] {
-        visibility: hidden;
-        height: 0%;
+    [data-testid="stHeader"] {
+        background: rgba(0,0,0,0);
+        color: rgba(0,0,0,0);
+    }
+    
+    [data-testid="stHeader"] > div:first-child {
+        display: none;
     }
     
     footer {
         visibility: hidden;
     }
 
-    #MainMenu {
-        visibility: hidden;
-    }
-
-    /* Target the specific top-right toolbar specifically */
+    /* Hide the specific Streamlit elements in the top right */
     .stAppDeployButton {
-        display: none;
+        display: none !important;
     }
     
     [data-testid="stToolbar"] {
-        display: none;
+        display: none !important;
     }
     /* ----------------------------------------------------------- */
 
@@ -115,17 +117,22 @@ with st.sidebar:
     # Using Markdown with Double-Space/Trailing Line Breaks for clean verticality
     st.markdown(f"""
     **🎓 Designed By:** Vikash Kumar  
+
     **🆔 Roll No:** D23177  
+
     **📝 Reg No:** 23101108906  
+
     **🏛️ Institution:** BCE Bhagalpur  
+
     **🔬 Algorithm:** Random Forest  
+
     **🎯 Accuracy:** 90.74%
     """)
     st.success("Model Status: Online")
     st.write("---")
     st.caption("Final Year Major Project 2026")
 
-# 4. Top Hero Section
+# 4. Top Header Section
 st.markdown("""
     <div class="main-header">
         <h1>🏗️ Smart Concrete Mix Strength Predictor</h1>
@@ -228,4 +235,3 @@ if st.checkbox("Show Strength-Age Gain Estimation"):
     chart_data = pd.DataFrame({'Age (Days)': age_range, 'Strength (MPa)': strength_curve})
     st.line_chart(chart_data.set_index('Age (Days)'))
     st.caption("Estimated strength gain profile for this specific mix design.")
-
