@@ -211,3 +211,4 @@ if st.checkbox("Show Strength-Age Gain Estimation"):
     st.line_chart(chart_data.set_index('Age (Days)'))
     st.caption("Estimated strength gain profile for this specific mix design.")
 
+
