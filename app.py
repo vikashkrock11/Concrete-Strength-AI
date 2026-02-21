@@ -124,14 +124,15 @@ with col2:
     fine = st.number_input("Fine Aggregate (kg/m³)", value=700.0, step=50.0)
     age = st.slider("Curing Age (Days)", 1, 365, 28)
 
+# PREPARE INPUT DICTIONARY (Moved outside button to avoid NameError)
+input_dict = {
+    'Cement': cement, 'Slag': slag, 'FlyAsh': fly_ash, 'Water': water,
+    'SP': sp, 'CoarseAgg': coarse, 'FineAgg': fine, 'Age': age
+}
+
 # 6. Prediction Area
 st.write("---")
 if st.button("🚀 EXECUTE PREDICTION ANALYSIS", use_container_width=True):
-    # Prepare Data
-    input_dict = {
-        'Cement': cement, 'Slag': slag, 'FlyAsh': fly_ash, 'Water': water,
-        'SP': sp, 'CoarseAgg': coarse, 'FineAgg': fine, 'Age': age
-    }
     input_df = pd.DataFrame([input_dict])
     
     # Prediction
@@ -185,12 +186,19 @@ RESULT:
         mime="text/plain"
     )
 
-# 8. Visual Analytics (Optional but Attractive)
+# 8. Visual Analytics (Now works without NameError)
 if st.checkbox("Show Strength-Age Gain Estimation"):
-    age_range = np.arange(1, 90)
-    age_test = pd.DataFrame([input_dict] * len(age_range))
-    age_test['Age'] = age_range
-    strength_curve = model.predict(age_test)
+    age_range = np.arange(1, 91) # Days 1 to 90
+    
+    # Create rows of data for each day in age_range
+    plot_data_rows = []
+    for day in age_range:
+        current_row = input_dict.copy()
+        current_row['Age'] = day
+        plot_data_rows.append(current_row)
+        
+    age_test_df = pd.DataFrame(plot_data_rows)
+    strength_curve = model.predict(age_test_df)
     
     chart_data = pd.DataFrame({'Age (Days)': age_range, 'Strength (MPa)': strength_curve})
     st.line_chart(chart_data.set_index('Age (Days)'))
