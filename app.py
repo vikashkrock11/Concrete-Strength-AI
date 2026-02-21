@@ -16,44 +16,56 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom CSS for a Premium "Engineering" Look
+# Custom CSS for Adaptive Light/Dark Theme Look
 st.markdown("""
     <style>
-    /* Main Background */
-    .stApp {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    /* Theme-aware variables */
+    :root {
+        --header-bg: #1e3a8a;
+        --card-bg: rgba(255, 255, 255, 0.7);
+        --text-color: #1e3a8a;
+        --accent-gradient: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
     }
-    
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --header-bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-color: #60a5fa;
+            --accent-gradient: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+        }
+    }
+
     /* Custom Header */
     .main-header {
-        background-color: #1e3a8a;
+        background-color: var(--header-bg);
         padding: 2rem;
         border-radius: 15px;
         color: white;
         text-align: center;
         margin-bottom: 2rem;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
     }
     
-    /* Card-like containers */
+    /* Card-like containers for inputs */
     div[data-testid="stVerticalBlock"] > div:has(div.stNumberInput) {
-        background: rgba(255, 255, 255, 0.7);
+        background: var(--card-bg);
         backdrop-filter: blur(10px);
         padding: 20px;
         border-radius: 15px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     /* Metric Styling */
     [data-testid="stMetricValue"] {
         font-size: 45px;
-        color: #1e3a8a;
+        color: var(--text-color);
         font-weight: 800;
     }
     
     /* Buttons */
     .stButton>button {
-        background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+        background: var(--accent-gradient);
         color: white;
         border: none;
         padding: 15px 30px;
@@ -64,13 +76,13 @@ st.markdown("""
     .stButton>button:hover {
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        color: white;
     }
     </style>
     """, unsafe_allow_html=True)
 
 # 3. Sidebar - Profile & Project Info
 with st.sidebar:
-    # Updated to a more reliable icon URL from Icons8
     st.image("https://img.icons8.com/external-beshi-flat-kerismaker/48/external-Concrete-Mix-construction-beshi-flat-kerismaker.png", width=100)
     st.title("Project Details")
     st.markdown("---")
