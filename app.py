@@ -87,8 +87,7 @@ with st.sidebar:
     st.title("Project Details")
     st.markdown("---")
     st.markdown("""
-    **🎓 Student:** Vikash Kumar  
-    **🆔 Roll No:** D23177  
+    **🎓 Designed By:** **Vikash Kumar** **🆔 Roll No:** D23177  
     **📝 Reg No:** 23101108906  
     **🏛️ Institution:** BCE Bhagalpur  
     **🔬 Algorithm:** Random Forest  
@@ -161,7 +160,8 @@ if st.button("🚀 EXECUTE PREDICTION ANALYSIS", use_container_width=True):
 ----------------------------------
 Project: Concrete AI Pro
 Institution: BCE Bhagalpur
-Student: Vikash Kumar
+Designed By: 
+Vikash Kumar
 Roll No: D23177
 Reg No: 23101108906
 
