@@ -16,7 +16,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom CSS for Adaptive Light/Dark Theme Look & Hiding GitHub/Footer
+# Custom CSS for Adaptive Light/Dark Theme Look
 st.markdown("""
     <style>
     /* Theme-aware variables */
@@ -35,11 +35,6 @@ st.markdown("""
             --accent-gradient: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
         }
     }
-
-    /* HIDE GITHUB ICON AND STREAMLIT FOOTER */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
 
     /* Custom Header */
     .main-header {
@@ -92,7 +87,8 @@ with st.sidebar:
     st.title("Project Details")
     st.markdown("---")
     st.markdown("""
-    **🎓 Designed By:** **Vikash Kumar** **🆔 Roll No:** D23177  
+    **🎓 Designed By:** Vikash Kumar  
+    **🆔 Roll No:** D23177  
     **📝 Reg No:** 23101108906  
     **🏛️ Institution:** BCE Bhagalpur  
     **🔬 Algorithm:** Random Forest  
@@ -165,8 +161,7 @@ if st.button("🚀 EXECUTE PREDICTION ANALYSIS", use_container_width=True):
 ----------------------------------
 Project: Concrete AI Pro
 Institution: BCE Bhagalpur
-Designed By: 
-Vikash Kumar
+Designed By: Vikash Kumar
 Roll No: D23177
 Reg No: 23101108906
 
