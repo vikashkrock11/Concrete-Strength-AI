@@ -92,13 +92,11 @@ with st.sidebar:
     st.title("Project Details")
     st.markdown("---")
     st.markdown("""
-    **🎓 Designed By:** Vikash Kumar  
-    **🆔 Roll No:** D23177  
+    **🎓 Designed By:** **Vikash Kumar** **🆔 Roll No:** D23177  
     **📝 Reg No:** 23101108906  
     **🏛️ Institution:** BCE Bhagalpur  
     **🔬 Algorithm:** Random Forest  
     **🎯 Accuracy:** 90.74%  
-    """)
     """)
     st.success("Model Status: Online")
     st.write("---")
@@ -210,5 +208,3 @@ if st.checkbox("Show Strength-Age Gain Estimation"):
     chart_data = pd.DataFrame({'Age (Days)': age_range, 'Strength (MPa)': strength_curve})
     st.line_chart(chart_data.set_index('Age (Days)'))
     st.caption("Estimated strength gain profile for this specific mix design.")
-
-
