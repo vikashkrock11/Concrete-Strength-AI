@@ -88,6 +88,8 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("""
     **🎓 Student:** Vikash Kumar  
+    **🆔 Roll No:** D23177  
+    **📝 Reg No:** 23101108906  
     **🏛️ Institution:** BCE Bhagalpur  
     **🔬 Algorithm:** Random Forest  
     **🎯 Accuracy:** 90.74%  
@@ -159,6 +161,8 @@ if st.button("🚀 EXECUTE PREDICTION ANALYSIS", use_container_width=True):
 Project: Concrete AI Pro
 Institution: BCE Bhagalpur
 Student: Vikash Kumar
+Roll No: D23177
+Reg No: 23101108906
 
 MIX DESIGN:
 - Cement: {cement} kg/m3
