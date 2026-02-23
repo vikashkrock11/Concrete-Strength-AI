@@ -13,10 +13,11 @@ except FileNotFoundError:
 st.set_page_config(
     page_title="Concrete AI Pro | BCE Bhagalpur",
     page_icon="🏗️",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Adaptive Light/Dark Theme Look
+# Custom CSS for Adaptive Light/Dark Theme Look and hiding specific Toolbar buttons
 st.markdown("""
     <style>
     /* Theme-aware variables */
@@ -35,6 +36,34 @@ st.markdown("""
             --accent-gradient: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
         }
     }
+
+    /* ----------------------------------------------------------- */
+    /* HIDE TOP TOOLBAR BUTTONS (Share, Star, GitHub, etc.)       */
+    /* ----------------------------------------------------------- */
+    header[data-testid="stHeader"] {
+        background: rgba(0,0,0,0);
+        color: rgba(0,0,0,0);
+    }
+    
+    /* Target the toolbar container specifically */
+    [data-testid="stToolbar"] {
+        display: none !important;
+    }
+    
+    /* Hide the deploy button if it exists */
+    .stAppDeployButton {
+        display: none !important;
+    }
+
+    /* Hide the Main Menu button */
+    #MainMenu {
+        display: none !important;
+    }
+    
+    footer {
+        visibility: hidden;
+    }
+    /* ----------------------------------------------------------- */
 
     /* Custom Header */
     .main-header {
@@ -86,13 +115,18 @@ with st.sidebar:
     st.image("https://img.icons8.com/external-beshi-flat-kerismaker/48/external-Concrete-Mix-construction-beshi-flat-kerismaker.png", width=100)
     st.title("Project Details")
     st.markdown("---")
-    st.markdown("""
-    **🎓 Student:** Vikash Kumar  
+    st.markdown(f"""
+    **🎓 Designed By:** Vikash Kumar  
+
     **🆔 Roll No:** D23177  
+
     **📝 Reg No:** 23101108906  
+
     **🏛️ Institution:** BCE Bhagalpur  
+
     **🔬 Algorithm:** Random Forest  
-    **🎯 Accuracy:** 90.74%  
+
+    **🎯 Accuracy:** 90.74%
     """)
     st.success("Model Status: Online")
     st.write("---")
@@ -103,7 +137,7 @@ st.markdown("""
     <div class="main-header">
         <h1>🏗️ Smart Concrete Mix Strength Predictor</h1>
         <p>Advanced Machine Learning for Civil Engineering Design Optimization</p>
-        <p>Designed by Vikash Kumar</p>
+        <p>Designed By: Vikash, Ritika, Sarfe, Harish, Rishikesh, Sahil, Astitva</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -113,19 +147,21 @@ col1, col2 = st.columns(2, gap="large")
 
 with col1:
     st.markdown("### 🧪 Binder Ingredients")
-    cement = st.number_input("Cement (kg/m³)", value=300.0, step=10.0)
-    water = st.number_input("Water (kg/m³)", value=150.0, step=5.0)
-    slag = st.number_input("Blast Furnace Slag (kg/m³)", value=0.0, step=10.0)
-    fly_ash = st.number_input("Fly Ash (kg/m³)", value=0.0, step=10.0)
+    # Added min_value=0.0 to prevent negative inputs
+    cement = st.number_input("Cement (kg/m³)", value=300.0, step=10.0, min_value=0.0)
+    water = st.number_input("Water (kg/m³)", value=150.0, step=5.0, min_value=0.0)
+    slag = st.number_input("Blast Furnace Slag (kg/m³)", value=0.0, step=10.0, min_value=0.0)
+    fly_ash = st.number_input("Fly Ash (kg/m³)", value=0.0, step=10.0, min_value=0.0)
 
 with col2:
     st.markdown("### 🪨 Aggregates & Aging")
-    sp = st.number_input("Superplasticizer (kg/m³)", value=0.0, step=0.5)
-    coarse = st.number_input("Coarse Aggregate (kg/m³)", value=1000.0, step=50.0)
-    fine = st.number_input("Fine Aggregate (kg/m³)", value=700.0, step=50.0)
-    age = st.slider("Curing Age (Days)", 1, 365, 28)
+    # Added min_value=0.0 and min_value=1 for age
+    sp = st.number_input("Superplasticizer (kg/m³)", value=0.0, step=0.5, min_value=0.0)
+    coarse = st.number_input("Coarse Aggregate (kg/m³)", value=1000.0, step=50.0, min_value=0.0)
+    fine = st.number_input("Fine Aggregate (kg/m³)", value=700.0, step=50.0, min_value=0.0)
+    age = st.slider("Curing Age (Days)", 1, 365, 28, min_value=1)
 
-# PREPARE INPUT DICTIONARY (Moved outside button to avoid NameError)
+# PREPARE INPUT DICTIONARY
 input_dict = {
     'Cement': cement, 'Slag': slag, 'FlyAsh': fly_ash, 'Water': water,
     'SP': sp, 'CoarseAgg': coarse, 'FineAgg': fine, 'Age': age
@@ -158,17 +194,20 @@ if st.button("🚀 EXECUTE PREDICTION ANALYSIS", use_container_width=True):
             st.write("Recommended for non-structural masonry, filling, or plain concrete work.")
 
     # 7. Generate Downloadable Report
+    # Added check for cement > 0 to calculate W/C ratio safely
+    wc_ratio = water/cement if cement > 0 else 0
+    
     report_content = f"""TECHNICAL PREDICTION REPORT
 ----------------------------------
 Project: Concrete AI Pro
 Institution: BCE Bhagalpur
-Student: Vikash Kumar
+Designed By: Vikash Kumar
 Roll No: D23177
 Reg No: 23101108906
 
 MIX DESIGN:
 - Cement: {cement} kg/m3
-- Water: {water} kg/m3 (W/C Ratio: {water/cement:.2f})
+- Water: {water} kg/m3 (W/C Ratio: {wc_ratio:.2f})
 - Slag: {slag} kg/m3
 - Fly Ash: {fly_ash} kg/m3
 - SP: {sp} kg/m3
@@ -187,7 +226,7 @@ RESULT:
         mime="text/plain"
     )
 
-# 8. Visual Analytics (Now works without NameError)
+# 8. Visual Analytics
 if st.checkbox("Show Strength-Age Gain Estimation"):
     age_range = np.arange(1, 91) # Days 1 to 90
     
