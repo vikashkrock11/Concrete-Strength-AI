@@ -37,33 +37,23 @@ st.markdown("""
         }
     }
 
-    /* ----------------------------------------------------------- */
-    /* HIDE TOP TOOLBAR BUTTONS (Share, Star, GitHub, etc.)       */
-    /* ----------------------------------------------------------- */
+    /* HIDE TOP TOOLBAR BUTTONS */
     header[data-testid="stHeader"] {
         background: rgba(0,0,0,0);
         color: rgba(0,0,0,0);
     }
-    
-    /* Target the toolbar container specifically */
     [data-testid="stToolbar"] {
         display: none !important;
     }
-    
-    /* Hide the deploy button if it exists */
     .stAppDeployButton {
         display: none !important;
     }
-
-    /* Hide the Main Menu button */
     #MainMenu {
         display: none !important;
     }
-    
     footer {
         visibility: hidden;
     }
-    /* ----------------------------------------------------------- */
 
     /* Custom Header */
     .main-header {
@@ -116,9 +106,7 @@ with st.sidebar:
     st.title("Project Details")
     st.markdown("---")
     st.markdown(f"""
-    **🎓 Designed By:** Vikash Kumar  
-
-    **🆔 Roll No:** D23177  
+    **🎓 Designed By:** **Vikash Kumar** **🆔 Roll No:** D23177  
 
     **📝 Reg No:** 23101108906  
 
@@ -138,6 +126,7 @@ st.markdown("""
         <h1>🏗️ Smart Concrete Mix Strength Predictor</h1>
         <p>Advanced Machine Learning for Civil Engineering Design Optimization</p>
         <p>Designed By: Vikash, Ritika, Sarfe, Harish, Rishikesh, Sahil, Astitva</p>
+                
     </div>
     """, unsafe_allow_html=True)
 
@@ -147,7 +136,6 @@ col1, col2 = st.columns(2, gap="large")
 
 with col1:
     st.markdown("### 🧪 Binder Ingredients")
-    # Added min_value=0.0 to prevent negative inputs
     cement = st.number_input("Cement (kg/m³)", value=300.0, step=10.0, min_value=0.0)
     water = st.number_input("Water (kg/m³)", value=150.0, step=5.0, min_value=0.0)
     slag = st.number_input("Blast Furnace Slag (kg/m³)", value=0.0, step=10.0, min_value=0.0)
@@ -155,11 +143,11 @@ with col1:
 
 with col2:
     st.markdown("### 🪨 Aggregates & Aging")
-    # Added min_value=0.0 and min_value=1 for age
     sp = st.number_input("Superplasticizer (kg/m³)", value=0.0, step=0.5, min_value=0.0)
     coarse = st.number_input("Coarse Aggregate (kg/m³)", value=1000.0, step=50.0, min_value=0.0)
     fine = st.number_input("Fine Aggregate (kg/m³)", value=700.0, step=50.0, min_value=0.0)
-    age = st.slider("Curing Age (Days)", 1, 365, 28, min_value=1)
+    # Fixed the slider error by correctly defining the range and default value
+    age = st.slider("Curing Age (Days)", min_value=1, max_value=365, value=28)
 
 # PREPARE INPUT DICTIONARY
 input_dict = {
@@ -194,9 +182,7 @@ if st.button("🚀 EXECUTE PREDICTION ANALYSIS", use_container_width=True):
             st.write("Recommended for non-structural masonry, filling, or plain concrete work.")
 
     # 7. Generate Downloadable Report
-    # Added check for cement > 0 to calculate W/C ratio safely
     wc_ratio = water/cement if cement > 0 else 0
-    
     report_content = f"""TECHNICAL PREDICTION REPORT
 ----------------------------------
 Project: Concrete AI Pro
@@ -228,9 +214,7 @@ RESULT:
 
 # 8. Visual Analytics
 if st.checkbox("Show Strength-Age Gain Estimation"):
-    age_range = np.arange(1, 91) # Days 1 to 90
-    
-    # Create rows of data for each day in age_range
+    age_range = np.arange(1, 91)
     plot_data_rows = []
     for day in age_range:
         current_row = input_dict.copy()
