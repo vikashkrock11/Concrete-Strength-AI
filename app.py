@@ -165,7 +165,7 @@ def generate_pdf(inputs, prediction, student_info):
     pdf.set_font("Arial", 'B', 16)
     pdf.cell(0, 10, f"Predicted Compressive Strength: {prediction:.2f} MPa", ln=True, align='C')
     pdf.set_font("Arial", 'I', 12)
-    pdf.cell(0, 10, f"Model Prediction Accuracy: 90.74%", ln=True, align='C')
+    pdf.cell(0, 10, f"Model Prediction Accuracy: 94.66%", ln=True, align='C')
     
     pdf.ln(20)
     pdf.set_font("Arial", 'I', 10)
@@ -288,3 +288,4 @@ if st.checkbox("Show Strength-Age Gain Estimation"):
     chart_data = pd.DataFrame({'Age (Days)': age_range, 'Strength (MPa)': strength_curve})
     st.line_chart(chart_data.set_index('Age (Days)'))
     st.caption("Estimated strength gain profile for this specific mix design.")
+
