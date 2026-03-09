@@ -84,6 +84,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # Function to generate PDF
+# Updated PDF Function - 'Reg No' removed
 def generate_pdf(inputs, prediction, student_info):
     pdf = FPDF()
     pdf.add_page()
@@ -101,15 +102,15 @@ def generate_pdf(inputs, prediction, student_info):
     
     pdf.ln(20)
     
-    # Student Info Section
+    # Personnel Info Section
     pdf.set_text_color(0, 0, 0)
     pdf.set_font("Arial", 'B', 14)
     pdf.cell(0, 10, "Project Personnel Information", ln=True)
     pdf.set_font("Arial", '', 12)
-    pdf.cell(0, 7, f"Designed By: {student_info['name']}", ln=True)
-    #pdf.cell(0, 7, f"Roll No: {student_info['roll']}", ln=True)
-    pdf.cell(0, 7, f"Reg No: {student_info['reg']}", ln=True)
-    pdf.cell(0, 7, f"Institution: {student_info['inst']}", ln=True)
+    pdf.cell(0, 7, f"Designed By: {student_info.get('name', 'N/A')}", ln=True)
+    pdf.cell(0, 7, f"Roll No: {student_info.get('roll', 'N/A')}", ln=True)
+    # The 'Reg No' line has been removed from here
+    pdf.cell(0, 7, f"Institution: {student_info.get('inst', 'BCE Bhagalpur')}", ln=True)
     
     pdf.ln(10)
     
@@ -144,11 +145,9 @@ def generate_pdf(inputs, prediction, student_info):
     pdf.ln(20)
     pdf.set_font("Arial", 'I', 10)
     pdf.set_text_color(100, 100, 100)
-    pdf.multi_cell(0, 5, "Disclaimer: This report is generated using a Random Forest machine learning model trained on experimental data. Actual field results may vary based on environmental conditions and curing techniques.", align='C')
+    pdf.multi_cell(0, 5, "Disclaimer: This report is generated using a Random Forest machine learning model trained on experimental data.", align='C')
     
-    # FIX: Convert bytearray to bytes for Streamlit compatibility
     return bytes(pdf.output())
-
 # 3. Sidebar - Profile & Project Info
 # 4. Data Setup
 student_info = {"name": "Vikash Kumar", "roll": "D23177"}
@@ -263,6 +262,7 @@ if st.checkbox("Show Strength-Age Gain Estimation"):
     chart_data = pd.DataFrame({'Age (Days)': age_range, 'Strength (MPa)': strength_curve})
     st.line_chart(chart_data.set_index('Age (Days)'))
     st.caption("Estimated strength gain profile for this specific mix design.")
+
 
 
 
