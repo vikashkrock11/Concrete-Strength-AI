@@ -107,7 +107,7 @@ def generate_pdf(inputs, prediction, student_info):
     pdf.cell(0, 10, "Project Personnel Information", ln=True)
     pdf.set_font("Arial", '', 12)
     pdf.cell(0, 7, f"Designed By: {student_info['name']}", ln=True)
-    pdf.cell(0, 7, f"Roll No: {student_info['roll']}", ln=True)
+    #pdf.cell(0, 7, f"Roll No: {student_info['roll']}", ln=True)
     pdf.cell(0, 7, f"Reg No: {student_info['reg']}", ln=True)
     pdf.cell(0, 7, f"Institution: {student_info['inst']}", ln=True)
     
@@ -263,6 +263,7 @@ if st.checkbox("Show Strength-Age Gain Estimation"):
     chart_data = pd.DataFrame({'Age (Days)': age_range, 'Strength (MPa)': strength_curve})
     st.line_chart(chart_data.set_index('Age (Days)'))
     st.caption("Estimated strength gain profile for this specific mix design.")
+
 
 
 
