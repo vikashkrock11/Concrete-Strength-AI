@@ -12,6 +12,7 @@ except FileNotFoundError:
     st.error("Error: 'concrete_model.pkl' not found. Please ensure the model file is in the project folder.")
 
 # 2. Page Configuration & Custom UI Styling
+# 2. Page Configuration & Custom UI Styling
 st.set_page_config(
     page_title="Concrete AI Pro | BCE Bhagalpur",
     page_icon="🏗️",
@@ -19,10 +20,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Adaptive Light/Dark Theme Look and hiding specific Toolbar buttons
+# Custom CSS for Adaptive Light/Dark Theme Look
 st.markdown("""
     <style>
-    /* Theme-aware variables */
     :root {
         --header-bg: #1e3a8a;
         --card-bg: rgba(255, 255, 255, 0.7);
@@ -39,25 +39,11 @@ st.markdown("""
         }
     }
 
-    /* HIDE TOP TOOLBAR BUTTONS */
-    header[data-testid="stHeader"] {
-        background: rgba(0,0,0,0);
-        color: rgba(0,0,0,0);
-    }
-    [data-testid="stToolbar"] {
-        display: none !important;
-    }
-    .stAppDeployButton {
-        display: none !important;
-    }
-    #MainMenu {
-        display: none !important;
-    }
-    footer {
-        visibility: hidden;
-    }
+    header[data-testid="stHeader"] { background: rgba(0,0,0,0); }
+    .stAppDeployButton { display: none !important; }
+    #MainMenu { display: none !important; }
+    footer { visibility: hidden; }
 
-    /* Custom Header */
     .main-header {
         background-color: var(--header-bg);
         padding: 2rem;
@@ -68,14 +54,8 @@ st.markdown("""
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
     }
     
-    .team-line {
-        font-size: 0.9rem;
-        opacity: 0.9;
-        margin-top: 10px;
-        font-style: italic;
-    }
+    .team-line { font-size: 0.9rem; opacity: 0.9; margin-top: 10px; font-style: italic; }
     
-    /* Card-like containers for inputs */
     div[data-testid="stVerticalBlock"] > div:has(div.stNumberInput) {
         background: var(--card-bg);
         backdrop-filter: blur(10px);
@@ -84,14 +64,8 @@ st.markdown("""
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
-    /* Metric Styling */
-    [data-testid="stMetricValue"] {
-        font-size: 45px;
-        color: var(--text-color);
-        font-weight: 800;
-    }
+    [data-testid="stMetricValue"] { font-size: 45px; color: var(--text-color); font-weight: 800; }
     
-    /* Buttons */
     .stButton>button {
         background: var(--accent-gradient);
         color: white;
@@ -288,3 +262,4 @@ if st.checkbox("Show Strength-Age Gain Estimation"):
     chart_data = pd.DataFrame({'Age (Days)': age_range, 'Strength (MPa)': strength_curve})
     st.line_chart(chart_data.set_index('Age (Days)'))
     st.caption("Estimated strength gain profile for this specific mix design.")
+
