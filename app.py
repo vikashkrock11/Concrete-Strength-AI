@@ -169,17 +169,6 @@ with st.sidebar:
     st.success("✅ Model: Online")
     st.caption("Bhagalpur College of Engineering")
 
-# 5. Main UI
-st.markdown("""
-    <div style='background-color: #1e3a8a; padding: 2rem; border-radius: 15px; color: white; text-align: center;'>
-        <h1>🏗️ Smart Concrete Mix Predictor</h1>
-        <p>Final Year Project - Group 5 | Machine Learning in Civil Engineering</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-if model is None:
-    st.error("⚠️ 'concrete_model.pkl' not found in directory.")
-    st.stop()
 # 4. Top Hero Section
 st.markdown(f"""
     <div class="main-header">
@@ -190,6 +179,10 @@ st.markdown(f"""
         </div>
     </div>
     """, unsafe_allow_html=True)
+if model is None:
+    st.error("⚠️ 'concrete_model.pkl' not found in directory.")
+    st.stop()
+
 
 # 5. Input Section
 st.subheader("📋 Mix Design Parameters")
@@ -270,5 +263,6 @@ if st.checkbox("Show Strength-Age Gain Estimation"):
     chart_data = pd.DataFrame({'Age (Days)': age_range, 'Strength (MPa)': strength_curve})
     st.line_chart(chart_data.set_index('Age (Days)'))
     st.caption("Estimated strength gain profile for this specific mix design.")
+
 
 
