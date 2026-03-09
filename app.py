@@ -150,28 +150,36 @@ def generate_pdf(inputs, prediction, student_info):
     return bytes(pdf.output())
 
 # 3. Sidebar - Profile & Project Info
-student_info = {
-    "name": "Vikash Kumar",
-    "roll": "D23177",
-    "reg": "23101108906",
-    "inst": "BCE Bhagalpur"
-}
+# 4. Data Setup
+student_info = {"name": "Vikash Kumar", "roll": "D23177"}
+team_members = ["Ritika", "Sarfe", "Harish", "Rishikesh", "Sahil", "Astitva"]
 
+# --- UPDATED SIDEBAR ---
 with st.sidebar:
-    st.image("https://img.icons8.com/external-beshi-flat-kerismaker/48/external-Concrete-Mix-construction-beshi-flat-kerismaker.png", width=100)
-    st.title("Project Details")
-    st.markdown("---")
-    st.markdown(f"""
-    **🎓 Designed By:** **{student_info['name']}** **🆔 Roll No:** {student_info['roll']}  
-    **📝 Reg No:** {student_info['reg']}  
-    **🏛️ Institution:** {student_info['inst']}  
-    **🔬 Algorithm:** Random Forest  
-    **🎯 Accuracy:** 90.74%
-    """)
-    st.success("Model Status: Online")
-    st.write("---")
-    st.caption("Final Year Major Project 2026")
+    st.image("https://img.icons8.com/fluency/96/concrete-mixer.png", width=80)
+    st.title("Project Info")
+    st.markdown("### 👥 Group 5")
+    st.info(f"**Lead:** {student_info['name']}\n\n**Roll:** {student_info['roll']}")
+    
+    with st.expander("🤝 Team Members", expanded=True):
+        for member in team_members:
+            st.write(f"• {member}")
+    
+    st.divider()
+    st.success("✅ Model: Online")
+    st.caption("Bhagalpur College of Engineering")
 
+# 5. Main UI
+st.markdown("""
+    <div style='background-color: #1e3a8a; padding: 2rem; border-radius: 15px; color: white; text-align: center;'>
+        <h1>🏗️ Smart Concrete Mix Predictor</h1>
+        <p>Final Year Project - Group 5 | Machine Learning in Civil Engineering</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+if model is None:
+    st.error("⚠️ 'concrete_model.pkl' not found in directory.")
+    st.stop()
 # 4. Top Hero Section
 st.markdown(f"""
     <div class="main-header">
@@ -262,4 +270,5 @@ if st.checkbox("Show Strength-Age Gain Estimation"):
     chart_data = pd.DataFrame({'Age (Days)': age_range, 'Strength (MPa)': strength_curve})
     st.line_chart(chart_data.set_index('Age (Days)'))
     st.caption("Estimated strength gain profile for this specific mix design.")
+
 
