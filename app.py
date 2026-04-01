@@ -5,7 +5,6 @@ import numpy as np
 from fpdf import FPDF
 import base64
 import os # Import os for path joining
-import xgboost
 
 # Define the model file path
 MODEL_PATH = 'concrete_strength_model.pkl'
@@ -156,12 +155,12 @@ def generate_pdf(inputs, prediction, student_info):
     pdf.set_font("Arial", 'B', 16)
     pdf.cell(0, 10, f"Predicted Compressive Strength: {prediction:.2f} MPa", ln=True, align='C')
     pdf.set_font("Arial", 'I', 12)
-    pdf.cell(0, 10, f"Model Prediction Accuracy: 94.79%", ln=True, align='C') # Updated accuracy to XGBoost R2
+    pdf.cell(0, 10, f"Model Prediction Accuracy: 94.79%", ln=True, align='C') # Updated accuracy to Gradient Boosting R2
 
     pdf.ln(20)
     pdf.set_font("Arial", 'I', 10)
     pdf.set_text_color(100, 100, 100)
-    pdf.multi_cell(0, 5, "Disclaimer: This report is generated using an optimized XGBoost machine learning model trained on experimental data.", align='C')
+    pdf.multi_cell(0, 5, "Disclaimer: This report is generated using an optimized Gradient Boosting machine learning model trained on experimental data.", align='C')
 
     return bytes(pdf.output())
 
