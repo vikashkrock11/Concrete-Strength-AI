@@ -1,18 +1,18 @@
 import streamlit as st
 import pandas as pd
-import pickle
+import joblib
 import numpy as np
 from fpdf import FPDF
 import base64
 import os # Import os for path joining
+import xgboost
 
 # Define the model file path
 MODEL_PATH = 'concrete_strength_model.pkl'
 
 # 1. Load the trained AI model and scaler
 try:
-    with open(MODEL_PATH, 'rb') as file:
-        model_components = pickle.load(file)
+    model_components = joblib.load(MODEL_PATH)
     model = model_components['model']
     scaler = model_components['scaler']
     st.success(f"Model and scaler loaded successfully from {MODEL_PATH}")
