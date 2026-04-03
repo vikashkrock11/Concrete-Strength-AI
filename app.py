@@ -6,10 +6,12 @@ from fpdf import FPDF
 import base64
 import os # Import os for path joining
 
-# Define the model file path
-MODEL_PATH = 'concrete_strength_model.pkl'
+# Define multiple possible paths for the model file
+POSSIBLE_PATHS = [
+    'concrete_strength_model.pkl',
+    '/content/drive/Othercomputers/VIKASH HP/Documents/GitHub/Concrete-Strength-AI/concrete_strength_model.pkl'
+]
 
-<<<<<<< HEAD
 # 1. Load the trained AI model and scaler using path redundancy
 model_components = None
 for path in POSSIBLE_PATHS:
@@ -25,30 +27,11 @@ for path in POSSIBLE_PATHS:
 
 if model_components is None:
     st.error("Error: Could not find 'concrete_strength_model.pkl' in local directory or Drive path.")
-=======
-# 1. Load the trained AI model and scaler
-try:
-    model_components = joblib.load(MODEL_PATH)
-    model = model_components['model']
-    scaler = model_components['scaler']
-    st.success(f"Model and scaler loaded successfully from {MODEL_PATH}")
-except FileNotFoundError:
-    st.error(f"Error: '{MODEL_PATH}' not found. Please ensure the model file is in the specified path.")
-    st.stop()
-except Exception as e:
-    st.error(f"Error loading model components: {e}")
->>>>>>> cf6161004982df5acc8ea887ae9a55ccdaa8ad03
     st.stop()
 
-# 2. Page Configuration & Custom UI Styling
-st.set_page_config(
-    page_title="Concrete AI Pro | BCE Bhagalpur",
-    page_icon="🏗️",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+model = model_components['model']
+scaler = model_components['scaler']
 
-<<<<<<< HEAD
 # 2. Page Configuration & Custom UI Styling
 st.set_page_config(
     page_title="Concrete AI Pro | BCE Bhagalpur",
@@ -61,10 +44,10 @@ st.set_page_config(
 st.markdown("""
     <style>
     :root {
-        --header-bg: #1e3a8a;
+        --header-bg: rgb(30, 58, 138);
         --card-bg: rgba(255, 255, 255, 0.7);
-        --text-color: #1e3a8a;
-        --accent-gradient: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+        --text-color: rgb(30, 58, 138);
+        --accent-gradient: linear-gradient(90deg, rgb(30, 58, 138) 0%, rgb(59, 130, 246) 100%);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -72,7 +55,7 @@ st.markdown("""
             --header-bg: #0f172a;
             --card-bg: rgba(30, 41, 59, 0.7);
             --text-color: #60a5fa;
-            --accent-gradient: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+            --accent-gradient: linear-gradient(90deg, rgb(59, 130, 246) 0%, rgb(37, 99, 235) 100%);
         }
     }
 
@@ -81,32 +64,6 @@ st.markdown("""
     #MainMenu { display: none !important; }
     footer { visibility: hidden; }
 
-=======
-# Custom CSS for Adaptive Light/Dark Theme Look
-st.markdown("""
-    <style>
-    :root {
-        --header-bg: #1e3a8a;
-        --card-bg: rgba(255, 255, 255, 0.7);
-        --text-color: #1e3a8a;
-        --accent-gradient: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
-    }
-
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --header-bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text-color: #60a5fa;
-            --accent-gradient: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
-        }
-    }
-
-    header[data-testid="stHeader"] { background: rgba(0,0,0,0); }
-    .stAppDeployButton { display: none !important; }
-    #MainMenu { display: none !important; }
-    footer { visibility: hidden; }
-
->>>>>>> cf6161004982df5acc8ea887ae9a55ccdaa8ad03
     .main-header {
         background-color: var(--header-bg);
         padding: 2rem;
@@ -253,26 +210,16 @@ col1, col2 = st.columns(2, gap="large")
 
 with col1:
     st.markdown("### 🧪 Binder Ingredients")
-<<<<<<< HEAD
     cement = st.number_input("Cement (kg/m³)", value=300.0, step=10.0, min_value=0.01)
     water = st.number_input("Water (kg/m³)", value=150.0, step=5.0, min_value=0.01)
-=======
-    cement = st.number_input("Cement (kg/m³)", value=300.0, step=10.0, min_value=0.0)
-    water = st.number_input("Water (kg/m³)", value=150.0, step=5.0, min_value=0.0)
->>>>>>> cf6161004982df5acc8ea887ae9a55ccdaa8ad03
     slag = st.number_input("Blast Furnace Slag (kg/m³)", value=0.0, step=10.0, min_value=0.0)
     fly_ash = st.number_input("Fly Ash (kg/m³)", value=0.0, step=10.0, min_value=0.0)
 
 with col2:
     st.markdown("### 🪨 Aggregates & Aging")
     sp = st.number_input("Superplasticizer (kg/m³)", value=0.0, step=0.5, min_value=0.0)
-<<<<<<< HEAD
     coarse = st.number_input("Coarse Aggregate (kg/m³)", value=1000.0, step=50.0, min_value=0.01)
     fine = st.number_input("Fine Aggregate (kg/m³)", value=700.0, step=50.0, min_value=0.01)
-=======
-    coarse = st.number_input("Coarse Aggregate (kg/m³)", value=1000.0, step=50.0, min_value=0.0)
-    fine = st.number_input("Fine Aggregate (kg/m³)", value=700.0, step=50.0, min_value=0.0)
->>>>>>> cf6161004982df5acc8ea887ae9a55ccdaa8ad03
     age = st.slider("Curing Age (Days)", min_value=1, max_value=365, value=28)
 
 # PREPARE INPUT DICTIONARY
