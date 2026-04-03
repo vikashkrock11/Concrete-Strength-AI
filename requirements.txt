@@ -3,4 +3,4 @@ xgboost
 scikit-learn
 pandas
 numpy
-fpdf2
+scipy
