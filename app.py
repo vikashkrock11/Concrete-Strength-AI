@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import pickle
 import numpy as np
-from scipy.interpolate import UnivariateSpline
+from scipy.interpolate import make_interp_spline
 import os
 
 # Define multiple possible paths for the model file
@@ -29,17 +29,13 @@ if model_components is None:
 model = model_components['model']
 scaler = model_components['scaler']
 
-# 2. Page Configuration
 st.set_page_config(page_title="Concrete AI Pro", page_icon="🏗️")
 
-# Sidebar & Info
 st.sidebar.title("Project Personnel")
 st.sidebar.info("Lead: Vikash Kumar (D23177)")
 
-# Main Header
 st.title("🏗️ Smart Concrete Mix Strength Predictor")
 
-# Input Section
 st.subheader("📋 Mix Design Parameters")
 col1, col2 = st.columns(2)
 with col1:
@@ -63,9 +59,9 @@ if st.button("🚀 EXECUTE PREDICTION"):
     prediction = model.predict(scaled_input)[0]
     st.metric(label="Predicted Strength", value=f"{prediction:.2f} MPa")
 
-# Visual Analytics with Smoothing
 if st.checkbox("Show Smooth Strength-Age Gain Curve"):
-    age_range = np.arange(1, 101)
+    # Generate a range of ages for prediction
+    age_range = np.linspace(1, 100, 100)
     plot_data = []
     for day in age_range:
         row = input_dict.copy()
@@ -75,9 +71,16 @@ if st.checkbox("Show Smooth Strength-Age Gain Curve"):
     age_df = pd.DataFrame(plot_data, columns=feature_columns)
     raw_strength = model.predict(scaler.transform(age_df))
 
-    spline = UnivariateSpline(age_range, raw_strength, s=50)
-    smooth_strength = spline(age_range)
+    # Use a higher-order Polynomial fit for better smoothing of tree-based steps
+    z = np.polyfit(age_range, raw_strength, 3)
+    p = np.poly1d(z)
+    smooth_strength = p(age_range)
 
-    chart_df = pd.DataFrame({'Age (Days)': age_range, 'Raw Prediction': raw_strength, 'Smoothed Growth': smooth_strength})
+    chart_df = pd.DataFrame({
+        'Age (Days)': age_range,
+        'Raw Prediction': raw_strength,
+        'Smoothed Growth Curve': smooth_strength
+    })
+    
     st.line_chart(chart_df.set_index('Age (Days)'))
-    st.caption("The smoothed curve represents a more realistic continuous hydration process.")
+    st.caption("The red line (Smoothed Growth) represents the continuous chemical gain in strength over time.")
