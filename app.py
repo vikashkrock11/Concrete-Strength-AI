@@ -179,7 +179,7 @@ student_info = {"name": "Vikash Kumar", "roll": "D23177", "inst": "BCE Bhagalpur
 team_members = ["Ritika", "Sarfe", "Harish", "Rishikesh", "Sahil", "Astitva"]
 
 with st.sidebar:
-    st.image("logobce.png", width=200)
+    st.image("https://img.icons8.com/fluency/96/concrete-mixer.png", width=80)
     st.title("Project Info")
     st.markdown("### 👥 Group 5")
     st.info(f"**Lead:** {student_info['name']}\n\n**Roll:** {student_info['roll']}")
