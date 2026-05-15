@@ -172,7 +172,8 @@ def generate_pdf(inputs, prediction, student_info):
     pdf.set_text_color(100, 100, 100)
     pdf.multi_cell(0, 5, "Disclaimer: This report is generated using an optimized Gradient Boosting machine learning model trained on experimental data.", align='C')
 
-    return bytes(pdf.output())
+    # FPDF.output() returns a string in Python 3; encode it to bytes for Streamlit download
+    return pdf.output(dest='S').encode('latin-1')
 
 # 3. Sidebar - Profile & Project Info
 student_info = {"name": "Vikash Kumar", "roll": "D23177", "inst": "BCE Bhagalpur"}
