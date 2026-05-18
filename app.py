@@ -165,7 +165,7 @@ def generate_pdf(inputs, prediction, student_info):
     pdf.set_font("Arial", 'B', 16)
     pdf.cell(0, 10, f"Predicted Compressive Strength: {prediction:.2f} MPa", ln=True, align='C')
     pdf.set_font("Arial", 'I', 12)
-    pdf.cell(0, 10, f"Model Prediction Accuracy: 94.79%", ln=True, align='C') # Updated accuracy to Gradient Boosting R2
+    pdf.cell(0, 10, f"Model Prediction Accuracy: 95.00%", ln=True, align='C') # Updated accuracy to Gradient Boosting R2
 
     pdf.ln(10)
     pdf.set_font("Arial", 'I', 10)
